@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-codegen-helm-181205
+  namespace: ai-rhdh
+  finalizers: ["resources-finalizer.argocd.argoproj.io"] 
+spec:
+  project: default
+  source:
+    path: ./app-of-apps
+    directory: recursive
+    repoURL: https://github.com/fpetk/test-codegen-helm-181205-gitops.git
+    targetRevision: main
+    helm:
+      releaseName: test-codegen-helm-181205
+  destination:
+    namespace: rhdh-app
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels: 
+        argocd.argoproj.io/managed-by: ai-rhdh
+    automated: 
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true

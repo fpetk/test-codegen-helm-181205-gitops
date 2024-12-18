@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name }}-model-config
+data:
+  {{- if .Values.existingModelServer }}
+  MODEL_ENDPOINT: "{{ .Values.name }}.modelEndpoint }}"
+  {{- else }}
+  MODEL_ENDPOINT: "http://{{ .Values.name }}-model-server:{{ .Values.modelServicePort }}"
+  {{- end }}
+  {{- if or (.Values.vllmSelected) (.Values.existingModelServer) }}
+  MODEL_NAME: "{{ .Values.modelName }}"
+  {{- end }}

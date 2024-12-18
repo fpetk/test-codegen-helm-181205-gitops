@@ -1,0 +1,16 @@
+{{- if .Values.dbRequired }}
+apiVersion: v1
+kind: Service
+metadata: 
+  labels: 
+    app.kubernetes.io/instance: {{ .Values.name }}-database
+    app.kubernetes.io/name: {{ .Values.name }}-database 
+  name: {{ .Values.name }}-database
+spec:
+  ports:
+  - port: {{ .Values.dbPort }}
+    protocol: TCP
+    targetPort: {{ .Values.dbPort }}
+  selector:
+    app.kubernetes.io/instance: {{ .Values.name }}-database 
+{{- end }}

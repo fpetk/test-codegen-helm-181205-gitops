@@ -1,0 +1,15 @@
+apiVersion: "pipelinesascode.tekton.dev/v1alpha1"
+kind: Repository
+metadata:
+  name: {{ .Values.name }}-repository
+spec:
+  url: https://github.com/fpetk/test-codegen-helm-181205
+  {{ if values.secretRef }}
+  git_provider:
+    secret:
+        name: {{ .Values.gitSecret }}
+        key: {{ .Values.gitSecretKey }}
+    webhook_secret:
+        name: {{ .Values.webhookSecret }}
+        key:  {{ .Values.webhookSecretKey }}
+  {{- end }}

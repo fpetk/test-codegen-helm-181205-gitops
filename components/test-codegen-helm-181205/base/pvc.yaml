@@ -1,0 +1,17 @@
+---
+{{- if .Values.vllmSelected }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels: 
+    app.kubernetes.io/instance: {{ .Values.name }}
+    app.kubernetes.io/name: {{ .Values.name }} 
+  name: {{ .Values.name }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 100Gi
+{{- end }}
